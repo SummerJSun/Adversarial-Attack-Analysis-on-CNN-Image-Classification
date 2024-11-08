@@ -11,7 +11,7 @@ log_file = open('training_log.txt', 'w')
 sys.stdout = log_file
 
 D_train = torch.load('data/D_train.data', weights_only=False)
-D_test = torch.load('data/Dr_test.data')
+D_test = torch.load('data/D_test.data')
 
 train_loader = DataLoader(D_train, batch_size=64, shuffle=True)
 test_loader = DataLoader(D_test, batch_size=64, shuffle=False)  # Validation set for testing
