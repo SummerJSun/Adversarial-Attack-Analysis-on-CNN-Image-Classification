@@ -5,22 +5,19 @@ from torch.utils.data import DataLoader
 from torch.optim.lr_scheduler import StepLR
 import matplotlib.pyplot as plt
 from models import CNN
+import os
 
-log_file = open('training_log2.txt', 'w')
+log_file = open('training_log.txt', 'w')
 sys.stdout = log_file
 
-D_tr = torch.load('training_data/D_tr.data', weights_only=False)
-D_val = torch.load('test_data/D_mem.data', weights_only=False)
-D_aux = torch.load('training_data/D_aux.data', weights_only=False)
+D_train = torch.load('data/D_train.data', weights_only=False)
+D_test = torch.load('data/Dr_test.data')
 
-train_loader = DataLoader(D_tr, batch_size=64, shuffle=True)
-test_loader = DataLoader(D_val, batch_size=64, shuffle=False)  # Validation set for testing
-
-aux_loader = DataLoader(D_aux, batch_size=64, shuffle=True)
+train_loader = DataLoader(D_train, batch_size=64, shuffle=True)
+test_loader = DataLoader(D_test, batch_size=64, shuffle=False)  # Validation set for testing
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 target_model = CNN(num_classes=10).to(device)
-reference_model = CNN(num_classes=10).to(device)
 
 def train_and_evaluate(model, train_loader, test_loader, epochs=256):
     model.to(device)
@@ -131,13 +128,12 @@ def train(model, data_loader):
     plt.grid(True)
     plt.show()
 
+output_folder = 'models'
+os.makedirs(output_folder, exist_ok= True)
+
 # Target model
-train_and_evaluate(target_model, train_loader, aux_loader)
+train_and_evaluate(target_model, train_loader, test_loader)
 print_model_weights(target_model)
 torch.save(target_model.state_dict(), 'models/target_model.mod')
-
-# reference model
-train(reference_model, aux_loader)
-torch.save(reference_model.state_dict(), 'models/reference_model.mod')
 
 log_file.close()
