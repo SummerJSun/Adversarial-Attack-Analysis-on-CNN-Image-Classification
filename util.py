@@ -24,4 +24,3 @@ def prediction_for_single_image(path_to_image: str):
     print(predicted_class.item().__class__)
     return predicted_class.item()
     
-prediction_for_single_image('image_dots_10.png')
