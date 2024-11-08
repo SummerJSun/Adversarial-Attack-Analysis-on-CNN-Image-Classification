@@ -1,2 +1,3 @@
 data/
 cifar10data/
+__pycache__/
