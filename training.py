@@ -85,48 +85,12 @@ def train_and_evaluate(model, train_loader, test_loader, epochs=256):
     plt.ylabel('Metrics')
     plt.legend()
     plt.grid(True)
-    plt.show()
+    plt.savefig('CNN_performing_result.png')
 
 def print_model_weights(model):
     for name, param in model.named_parameters():
         if param.requires_grad:
             print(f"{name}: {param.data}")
-            
-def train(model, data_loader):
-    model.train()
-    criterion = nn.CrossEntropyLoss()
-    optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
-    
-    losses = []
-
-    for epoch in range(256):
-        total_loss = 0
-        for inputs, labels in data_loader:
-            labels = labels.to(device)
-            inputs= inputs.to(device)
-            
-            optimizer.zero_grad()
-            outputs = model(inputs)
-            loss = criterion(outputs, labels)
-            loss.backward()
-            optimizer.step()
-            total_loss += loss.item()
-        
-        avg_loss = total_loss / len(data_loader)
-        losses.append(avg_loss)
-        print(f"Epoch {epoch+1}, Average Loss: {avg_loss}")
-        
-        if avg_loss < 0.18:
-            break
-
-    # Plotting the training loss
-    plt.figure(figsize=(10, 5))
-    plt.plot(range(1, len(losses) + 1), losses, marker='o')
-    plt.title('Training Loss per Epoch')
-    plt.xlabel('Epoch')
-    plt.ylabel('Average Training Loss')
-    plt.grid(True)
-    plt.show()
 
 output_folder = 'models'
 os.makedirs(output_folder, exist_ok= True)
