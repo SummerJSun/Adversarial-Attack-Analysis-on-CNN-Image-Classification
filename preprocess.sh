@@ -5,7 +5,7 @@
 bash
 conda init bash >/dev/null 2>&1
 source ~/.bashrc
-cd /scratch/ycai222/Adversarial-Attack-Analysis-on-CNN-Image-Classification]
+cd /scratch/ycai222/Adversarial-Attack-Analysis-on-CNN-Image-Classification
 conda activate advattack
  
 echo '====start running===='
