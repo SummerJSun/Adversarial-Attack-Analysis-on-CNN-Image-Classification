@@ -9,5 +9,5 @@ cd /scratch/ycai222/Adversarial-Attack-Analysis-on-CNN-Image-Classification
 conda activate advattack
  
 echo '====start running===='
-python transformer.py
+python transformer.py >> ./logs/epch10_ViT_finetune.log 2>> ./logs/epch10_ViT_finetune.err
 echo '=====end======='
