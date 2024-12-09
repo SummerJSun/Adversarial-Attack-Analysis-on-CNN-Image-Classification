@@ -127,8 +127,8 @@ class EmbeddingExtractor:
 # Usage example
 if __name__ == "__main__":
     model_path = "/Users/jinjiahui/Desktop/CS470Project/models/target_model.mod"
-    input_dir = "adversarial_cifar10_epsilon_0.5"
-    output_dir = "embed_adversarial_cifar10_epsilon_0.5"
+    input_dir = "adversarial_cifar10_epsilon_0.005"
+    output_dir = "embed_adversarial_cifar10_epsilon_0.005"
     
     extractor = EmbeddingExtractor(model_path)
     extractor.process_directory(input_dir, output_dir)
