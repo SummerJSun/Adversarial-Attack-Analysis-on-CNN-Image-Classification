@@ -108,7 +108,7 @@ def evaluate_adversarial_impact(pre_adv_path, post_adv_path, random_state=42):
 if __name__ == "__main__":
     # Paths to your embedding directories
     pre_adv_path = 'embed_cifar10_test_images_by_class'
-    post_adv_path = 'embed_adversarial_cifar10'
+    post_adv_path = 'embed_adversarial_cifar10_epsilon_0.5'
     
     # Run evaluation
     results, models = evaluate_adversarial_impact(pre_adv_path, post_adv_path)
