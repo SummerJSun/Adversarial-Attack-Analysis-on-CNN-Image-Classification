@@ -137,3 +137,10 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# Adversarial Test Set (epsilon=0.001) -> Accuracy Drop: 1.01%
+# Adversarial Test Set (epsilon=0.005) -> Accuracy Drop: 0.95%                                                                                                                                                        
+# Adversarial Test Set (epsilon=0.01) -> Accuracy Drop: 3.69%                                                                                                                                                         
+# Adversarial Test Set (epsilon=0.05) -> Accuracy Drop: 28.96%                                                                                                                                                        
+# Adversarial Test Set (epsilon=0.1) -> Accuracy Drop: 57.85%
+# Adversarial Test Set (epsilon=0.5) -> Accuracy Drop: 88.77%
