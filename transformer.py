@@ -5,12 +5,13 @@ from torch.utils.data import DataLoader
 import torch.nn as nn
 from torchvision.models import vit_b_16, ViT_B_16_Weights  # Import Vision Transformer with pretrained weights
 from torch.optim import Adam
+from tqdm import tqdm  # Import tqdm for progress bars
 
 # Device configuration
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
-def train_vit_model(model, train_loader, criterion, optimizer, epochs=10):
+def train_vit_model(model, train_loader, criterion, optimizer, epochs=10, save_path="finetuned_vit.pth"):
     """
     Fine-tunes the Vision Transformer model on the training dataset.
 
@@ -20,6 +21,7 @@ def train_vit_model(model, train_loader, criterion, optimizer, epochs=10):
         criterion (nn.Module): Loss function.
         optimizer (torch.optim.Optimizer): Optimizer for training.
         epochs (int): Number of training epochs.
+        save_path (str): File path to save the fine-tuned model.
 
     Returns:
         None
@@ -31,7 +33,9 @@ def train_vit_model(model, train_loader, criterion, optimizer, epochs=10):
         correct = 0
         total = 0
 
-        for images, labels in train_loader:
+        progress_bar = tqdm(train_loader, desc=f"Epoch {epoch + 1}/{epochs}", leave=False)
+
+        for images, labels in progress_bar:
             images, labels = images.to(device), labels.to(device)
 
             optimizer.zero_grad()
@@ -47,9 +51,14 @@ def train_vit_model(model, train_loader, criterion, optimizer, epochs=10):
             correct += (predicted == labels).sum().item()
             total += labels.size(0)
 
+            progress_bar.set_postfix(loss=loss.item(), accuracy=100 * correct / total)
+
         epoch_loss = running_loss / len(train_loader)
         epoch_accuracy = 100 * correct / total
         print(f"Epoch {epoch + 1}/{epochs} -> Loss: {epoch_loss:.4f}, Accuracy: {epoch_accuracy:.2f}%")
+
+    torch.save(model.state_dict(), save_path)
+    print(f"Model saved to {save_path}")
 
 
 def evaluate_vit_model(model, test_loader, criterion):
@@ -70,8 +79,11 @@ def evaluate_vit_model(model, test_loader, criterion):
     correct = 0
     total = 0
 
-    with torch.no_grad():  # Disable gradient calculation
-        for images, labels in test_loader:
+    # Add tqdm for evaluation progress
+    with torch.no_grad():
+        progress_bar = tqdm(test_loader, desc="Evaluating", leave=False)
+
+        for images, labels in progress_bar:
             images, labels = images.to(device), labels.to(device)
             outputs = model(images)
             loss = criterion(outputs, labels)
@@ -80,6 +92,8 @@ def evaluate_vit_model(model, test_loader, criterion):
             _, predicted = outputs.max(1)
             correct += (predicted == labels).sum().item()
             total += labels.size(0)
+
+            progress_bar.set_postfix(loss=loss.item(), accuracy=100 * correct / total)
 
     avg_loss = total_loss / len(test_loader)
     accuracy = 100 * correct / total
@@ -111,7 +125,7 @@ def main():
     optimizer = Adam(model.parameters(), lr=0.001)
 
     print("Starting fine-tuning...")
-    train_vit_model(model, train_loader, criterion, optimizer, epochs=10)
+    train_vit_model(model, train_loader, criterion, optimizer, epochs=4, save_path="models/finetuned_vit.pth")
 
     test_loss, test_accuracy = evaluate_vit_model(model, test_loader, criterion)
     print(f"Original Test Set -> Loss: {test_loss:.4f}, Accuracy: {test_accuracy:.2f}%")
