@@ -1,3 +1,4 @@
 data/
 cifar10data/
 __pycache__/
+models/finetuned_vit.pth
