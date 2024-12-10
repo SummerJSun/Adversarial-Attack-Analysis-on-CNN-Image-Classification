@@ -137,7 +137,8 @@ def main():
 
 if __name__ == "__main__":
     main()
-
+    
+# CIFAR-10 Test Set -> Accuracy: 91.05%
 # Adversarial Test Set (epsilon=0.001) -> Accuracy Drop: 1.01%
 # Adversarial Test Set (epsilon=0.005) -> Accuracy Drop: 0.95%                                                                                                                                                        
 # Adversarial Test Set (epsilon=0.01) -> Accuracy Drop: 3.69%                                                                                                                                                         
