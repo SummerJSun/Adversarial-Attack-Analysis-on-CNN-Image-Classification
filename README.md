@@ -1,6 +1,6 @@
-# Adversarial Attack Analysis on CNN Image Classification
+# Adversarial Attack Analysis on Image Classification
 
-A research project exploring the effectiveness of physical adversarial attack strategies on Convolutional Neural Networks (CNNs).
+A research project exploring the effectiveness of physical adversarial attack strategies on different models.
 
 ## Authors
 - Lupin Cai (lupin.cai@emory.edu)
